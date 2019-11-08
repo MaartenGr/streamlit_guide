@@ -1,0 +1,16 @@
+FROM python:3.6-slim
+
+# make directories suited to your application
+RUN mkdir -p /home/project/app
+WORKDIR /home/project/app
+COPY . /home/project/app
+
+# Install requirements
+RUN pip install --no-cache-dir -r requirements.txt
+
+# register streamlit user
+RUN mkdir $HOME/.streamlit \
+    && echo '[general]' >  $HOME/.streamlit/credentials.toml \
+    && echo 'email = "youruser@gmail.com"' >> $HOME/.streamlit/credentials.toml \
+    && echo '[server]'  >  $HOME/.streamlit/config.toml \
+    && echo 'enableCORS = false' >> $HOME/.streamlit/config.toml
